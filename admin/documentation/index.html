@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation of miniproject</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="scripts.js"></script> 
+</head>
+<body>
+<button onclick="theme()">Toggle white/dark mode</button> <br>
+<a href="https://www.mysqltutorial.org/">reference of sql</a><br>
+<a href="./projectreport.pdf">Project Report</a><br>
+    <div class="heading">
+        <h2 style="color: red;text-align: center;"><u>Medical Management System</u></h2>
+        <h3 style="text-align: center;"><u>ABSTRACT</u></h3>
+        <p>
+This project intends to build and execute a thorough database management system for a medical management company like a pharmacy.
+The system will make it possible to keep track of and manage information on patients, medical personnel, equipment and drug inventories, appointments, sales, purchase orders, and medical procedures.
+By centralising data storage and offering a user-friendly interface for accessing and modifying that data, this project seeks to increase the efficiency and accuracy of the medical management organization's activities. 
+Using php as front-end language the project for a medical management system or pharmaceutical management system will make use of the MySQL database as backend. We can manage medication location information, medication company and supplier data, real-time medication inventory data, medication purchase and sales data, and even print medication sales invoices with the use of this medical management system.
+            <br><br>
+
+            The system's capacity for tracking and managing inventory—both of equipment and medications—is one of its essential components.
+            Medical staff will be able to submit purchase orders with suppliers, check the availability of pharmaceuticals and equipment, and track the delivery and reception of things with the help of the system.
+            Additionally, the system will automatically update the inventory levels as things are used or expire, giving the medical management organisation real-time visibility into its stock. 
+            <br><br>
+            Another important component of the system is the capacity to store and manage patient and staff information, such as medical history, contact information, and appointments.
+            The system also manages sales and purchase orders, tracks their expiration dates, and notifies personnel when a prescription is due to expire. 
+            <br><br>
+            The system also has a feature that manages the appointments and keeps track of the medines that are assigned to the patients. 
+            The system will be designed to be user-friendly and intuitive, with a graphical user interface that allows medical staff to easily access and manipulate the data. The system will also be designed to be secure, with role-based access control to ensure that only authorized staff can access sensitive information.
+            <br><br>
+            The overall goal of this project is to provide a thorough and effective system for overseeing a medical management organization's everyday activities.
+            The system will enhance the accuracy and efficiency of the medical management organization's operations by centralising data storage and offering a user-friendly interface, ultimately leading to improved patient safety and increased business outcomes. 
+            <br><br>
+        </p>
+    </div>
+    <br>
+    <div class="figure">
+        <h3  style="text-align: center;font-size: 20px;"><u> ER Diagram </u></h3>
+        <center>
+        <a href="./ER diagram.png" download><img src="./ER diagram.png" alt="ER diagram image with all entity" width="90%"/></a>
+        <p>ER diagram for medical shop management</p>
+        </center>
+    </div>
+    <br>
+    <div class="figure">
+        <center>
+        <a href="./schema dark.jpg" download><img src="./schema dark.jpg" alt="Schema diagram image with all entity" width="90%"/></a>
+        <p>Schema diagram for medical shop management</p>
+        </center>
+    </div>   
+    <br><br>
+
+
+<div class="container"><h1>Brief of concepts in this project</h1>
+    <h2>
+    <ul>
+    <li> 7 tables are created</li>
+    <li> 1 alter table command (for age in EMPLOYEE table)</li>
+    <li> 1 update command (in EMPLOYEE to get age)</li>
+    <li> 6 triggers used</li>
+    <li> 1 view (invoices from sales and customers) </li>
+    <li> 1 stored procedure (for adding customer in cutomer table)(after on insertion of customer only can be seen)</li>
+    <li> 5 rows of data rows inserted</li>
+    <li> 1 search in low stock report</li>
+    <li> 1 advanced js search for any</li>
+    <li> Reports of sales, purchase,profit </li>
+    <li> low stock medicines when < 10 </li>
+    <li> expired and will expire medicines within 30 days </li>
+    <li> Show errors when error in query value</li>
+    <li> Get Between dates transactions </li>
+    <li> Used aggregate function</li>
+    <li> Seperate employee login and employee to make it secure</li>
+    <li> Calculator for Calculations </li>
+    <li> Report on medical management</li>
+    </ul>
+    </h2>
+</div>
+
+    <br>
+    <h2 style="text-decoration:underline purple;font-weight: bold;padding-left: 14px;text-align: center;">SQL CODES and Explanation</h2><br>
+    <div class="container">
+        <p class="language">Datebase creation</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+create database MEDICAL;
+use MEDICAL;
+    
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">Tables creation</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+create table EMPLOYEE
+(
+    E_ID varchar(6),
+    E_Name varchar(30) not NULL,
+    E_Mail varchar(40) not NULL,
+    E_Phone decimal(10,0) not NULL,
+    E_Role varchar(15) not NULL,
+    E_Bdate date not NULL,
+    E_Type varchar(15) not NULL,
+    E_Jdate date not NULL,
+    E_Sex varchar(6) not NULL,
+    E_Salary int not NULL,
+    E_Add varchar(40) default NULL,
+    primary key(E_ID)
+);
+
+create table CUSTOMER
+(
+    C_ID varchar(6),
+    C_Fname varchar(30) not NULL,
+    C_Lname varchar(30) default NULL,
+    C_Address varchar(30) not NULL,
+    C_Age int(11) not NULL,
+    C_Sex varchar(6) not NULL,
+    C_Phone decimal(10,0) not NULL unique,
+    C_Mail varchar(40) not NULL unique,
+    primary key(C_ID)
+);
+
+create table SALES
+(
+    S_ID varchar(6),
+    S_Date date default NULL,
+    S_Time time default NULL, 
+    Total_Amt int default NULL,
+    C_ID varchar(6) not NULL,
+    E_ID varchar(6) not NULL,
+    primary key(S_ID),
+    foreign key(E_ID) references EMPLOYEE(E_ID) on delete cascade,
+    foreign key(C_ID) references CUSTOMER(C_ID) on delete cascade
+);
+
+create table MEDICINES
+(
+    Med_ID varchar(6),
+    Med_Name varchar(50) not NULL,
+    Med_Qty int(11) not NULL,
+    Category varchar(20) default NULL,
+    Med_Price int not NULL,
+    Location_Rack varchar(30) default NULL,
+    primary key(Med_ID)
+);
+
+create table SUPPLIERS
+(
+    Sup_ID varchar(6),
+    Sup_Name varchar(30) not NULL,
+    Sup_Mail varchar(40) not NULL,
+    Sup_Phone decimal(10,0) not NULL,
+    Sup_Add varchar(30) not NULL,
+    primary key(Sup_ID)
+);
+
+create table PURCHASE
+(
+    P_ID varchar(6),
+    Med_ID varchar(6) not NULL,
+    Sup_ID varchar(6) not NULL,
+    Pur_Date date not NULL,
+    Mfg_Date date not NULL,
+    Exp_Date date not NULL,
+    P_Qty int(11) not NULL,
+    P_Cost int not NULL,
+    primary key(P_ID,Med_ID),
+    foreign key(Med_ID) references MEDICINES(Med_ID) on delete cascade,
+    foreign key(Sup_ID) references SUPPLIERS(Sup_ID) on delete cascade
+);
+
+create table SALES_ITEMS
+(
+    S_ID varchar(6) not NULL,
+    Med_ID varchar(6) not NULL,
+    Sale_Qty int(11) not NULL,
+    Tot_Price int not NULL,
+    primary key(S_ID,Med_ID),
+    foreign key(S_ID) references SALES(S_ID) on delete cascade,
+    foreign key(Med_ID) references MEDICINES(Med_ID) on delete cascade
+);
+</code></pre>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <p class="language">Insert default data to table</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+insert into EMPLOYEE (E_ID, E_Name, E_Mail, E_Phone, E_Role, E_Bdate, E_Type, E_Jdate, E_Sex, E_Salary, E_Add) values
+('E1', 'John Smith', 'john.smith@gmail.com', '9876543210', 'Manager', '1995-01-01', 'Full-time', '2021-01-01', 'Male', '50000', '123 Main St'),
+('E2', 'Alice Williams', 'alice.williams@gmail.com', '9876543211', 'Pharmacist', '1996-02-14', 'Part-time', '2021-02-01', 'Female', '40000', '456 Main St'),
+('E3', 'Bob Johnson', 'bob.johnson@gmail.com', '9876543212', 'Receptionist', '1997-03-15', 'Full-time', '2021-03-01', 'Male', '30000', '789 Main St'),
+('E4', 'Samantha Brown', 'samantha.brown@gmail.com', '9876543213', 'Pharmacist', '1998-04-16', 'Full-time', '2021-04-01', 'Female', '40000', '321 Main St'),
+('E5', 'James Davis', 'james.davis@gmail.com', '9876543214', 'Receptionist', '1999-05-17', 'Part-time', '2022-01-01', 'Male', '30000', '654 Main St');
+
+insert into CUSTOMER (C_ID, C_Fname, C_Lname, C_Address, C_Age, C_Sex, C_Phone, C_Mail) values
+('C1', 'Sarah', 'Johnson', '123 Main St', '35', 'Female', '9876543210', 'sarah.johnson@gmail.com'),
+('C2', 'Michael', 'Williams', '456 Main St', '40', 'Male', '9876543211', 'michael.williams@gmail.com'),
+('C3', 'Emily', 'Brown', '789 Main St', '38', 'Female', '9876543212', 'emily.brown@gmail.com'),
+('C4', 'David', 'Smith', '321 Main St', '42', 'Male', '9876543213', 'david.smith@gmail.com'),
+('C5', 'Jessica', 'Jones', '654 Main St', '35', 'Female', '9876543214', 'jessica.jones@gmail.com');
+
+insert into SALES (S_ID, S_Date, S_Time, Total_Amt, C_ID, E_ID) values
+('S1', '2021-01-05', '10:00:00', '100', 'C1', 'E1'),
+('S2', '2021-02-08', '11:00:00', '200', 'C2', 'E2'),
+('S3', '2021-02-15', '12:00:00', '300', 'C3', 'E3'),
+('S4', '2022-01-04', '13:00:00', '400', 'C4', 'E4'),
+('S5', '2022-02-05', '14:00:00', '500', 'C5', 'E5');
+
+insert into MEDICINES (Med_ID, Med_Name, Med_Qty, Category, Med_Price, Location_Rack) values
+('M1', 'Aspirin', '100', 'Pain Relief', '10', 'A1'),
+('M2', 'Ibuprofen', '200', 'Pain Relief', '20', 'A2'),
+('M3', 'Acetaminophen', '300', 'Pain Relief', '30', 'A3'),
+('M4', 'Amoxicillin', '400', 'Antibiotic', '40', 'A4'),
+('M5', 'Ciprofloxacin', '0', 'Antibiotic', '50', 'A5');
+
+insert into SUPPLIERS (Sup_ID, Sup_Name, Sup_Mail, Sup_Phone, Sup_Add) values
+('SU1', 'Acme Pharmaceuticals', 'acme@gmail.com', '9876543210', '123 Main St'),
+('SU2', 'XYZ Inc.', 'xyz@gmail.com', '9876543211', '456 Main St'),
+('SU3', 'ABC Corp.', 'abc@gmail.com', '9876543212', '789 Main St'),
+('SU4', 'Definite Drugs', 'definite@gmail.com', '9876543213', '321 Main St'),
+('SU5', 'GHC Limited', 'ghc@gmail.com', '9876543214', '654 Main St');
+
+insert into PURCHASE (P_ID, Med_ID, Sup_ID, Pur_Date, Mfg_Date, Exp_Date, P_Qty, P_Cost) values
+('P1', 'M1', 'SU1', '2021-01-01', '2020-03-01', '2022-02-01', '100', '100'),
+('P2', 'M2', 'SU2', '2021-01-02', '2020-04-02', '2022-02-02', '200', '200'),
+('P3', 'M3', 'SU3', '2021-01-03', '2021-01-01', '2024-01-03', '300', '300'),
+('P4', 'M4', 'SU4', '2022-01-04', '2021-01-04', '2025-01-04', '400', '400'),
+('P5', 'M5', 'SU5', '2022-01-05', '2021-01-05', '2024-01-05', '500', '5000');
+
+insert into SALES_ITEMS (S_ID, Med_ID, Sale_Qty, Tot_Price) values
+('S1', 'M1', '10', '100'),
+('S1', 'M2', '20', '200'),
+('S2', 'M3', '30', '300'),
+('S2', 'M4', '40', '400'),
+('S3', 'M5', '50', '500'),
+('S4', 'M1', '60', '600'),
+('S4', 'M2', '70', '700'),
+('S5', 'M3', '80', '800'),
+('S5', 'M4', '90', '900'),
+('S5', 'M5', '100', '1000');
+    
+</code></pre>
+        </div>
+    </div>
+
+<div class="container">
+        <p class="language">Alter the table</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+ALTER TABLE EMPLOYEE ADD COLUMN age INTEGER;
+
+</code></pre>
+        </div>
+    </div>
+
+<h2 style="text-decoration:underline purple;font-weight: bold;padding-left: 14px;text-align: center;">Views</h2><br>
+Views are read-only, meaning that you cannot insert, update or delete data through a view. 
+They are also used to simplify the complexity of the database by providing a specific, user-friendly interface to the data. 
+<br>They can also be used to provide a consistent view of the data to different users, while hiding the underlying table structures and relationships.
+
+<div class="container">
+        <p class="language">Creating the View</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+CREATE VIEW invoices AS
+SELECT s.S_ID AS S_ID, c.C_Fname AS C_Fname, c.C_Lname AS C_Lname, s.S_Date AS S_Date, s.Total_Amt AS Total_Amt
+FROM sales s
+JOIN customer c ON s.C_ID = c.C_ID;
+
+</code></pre>
+        </div>
+    </div>
+	
+	
+<div class="container">
+        <p class="language">Updating the the table</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+UPDATE EMPLOYEE
+SET age = EXTRACT(YEAR FROM CURDATE()) - EXTRACT(YEAR FROM E_Bdate)
+     - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(E_Bdate, '%m%d'));
+	 
+</code></pre>
+        </div>
+    </div> 
+	 
+<br>
+<h2 style="text-decoration:underline purple;font-weight: bold;padding-left: 14px;text-align: center;">Triggers</h2><br>
+<div class="container">
+        <p class="language">Trigger implemented before</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+DELIMITER //
+CREATE TRIGGER neg_total_amt
+BEFORE INSERT ON SALES
+FOR EACH ROW
+BEGIN
+  IF NEW.Total_Amt < 0 THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Total amount cannot be negative';
+  END IF;
+END;//
+DELIMITER ;
+</code></pre>
+        </div>
+    </div> 
+<p>A trigger is a database object that is associated with a table, and is executed automatically when a specific event occurs on the table.<br>
+ Triggers are commonly used to enforce data integrity, perform calculations, or log changes to the table.</p>
+ <p>
+This trigger will be activated before an insert operation on the SALES table.<br>
+ It will check the value of Total_Amt for each row being inserted. If the value is negative,<br>
+ the trigger will raise an error with the message "Total amount cannot be negative".<br>
+<br>
+Note:- The SIGNAL statement is used to raise an error in a trigger. <br>
+The SQLSTATE value '45000' indicates a user-defined error, <br>
+and the MESSAGE_TEXT parameter allows you to specify a custom error message.<br>
+ </p>
+ 
+<div class="container">
+        <p class="language">Trigger on insert age to employee after</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+DELIMITER //
+CREATE TRIGGER update_age_on_insert
+AFTER INSERT ON EMPLOYEE
+FOR EACH ROW
+BEGIN
+    UPDATE EMPLOYEE
+    SET age = EXTRACT(YEAR FROM CURDATE()) - EXTRACT(YEAR FROM E_Bdate)
+         - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(E_Bdate, '%m%d'))
+    WHERE E_ID = NEW.E_ID;
+END;//
+DELIMITER ;
+</code></pre>
+        </div>
+    </div>
+
+<div class="container">
+        <p class="language">Trigger some more for validation</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+DELIMITER //
+CREATE TRIGGER check_purchase_quantity_cost_insert 
+BEFORE INSERT ON PURCHASE
+FOR EACH ROW
+BEGIN
+    IF (NEW.P_Qty < 0 OR NEW.P_Cost < 0) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error: Purchase quantity and cost cannot be negative.';
+    END IF;
+END;//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER check_purchase_quantity_cost_update
+BEFORE UPDATE ON PURCHASE
+FOR EACH ROW
+BEGIN
+    IF (NEW.P_Qty < 0 OR NEW.P_Cost < 0) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error: Purchase quantity and cost cannot be negative.';
+    END IF;
+END;//
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER check_medicine_quantity_price_insert
+BEFORE INSERT ON MEDICINES
+FOR EACH ROW
+BEGIN
+    IF (NEW.Med_Qty < 0 OR NEW.Med_Price < 0) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error: Medicine quantity and price cannot be negative.';
+    END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER check_medicine_quantity_price_update
+BEFORE UPDATE ON MEDICINES
+FOR EACH ROW
+BEGIN
+    IF (NEW.Med_Qty < 0 OR NEW.Med_Price < 0) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error: Medicine quantity and price cannot be negative.';
+    END IF;
+END$$
+DELIMITER ;
+</code></pre>
+        </div>
+    </div>
+
+<br>
+<h2 style="text-decoration:underline purple;font-weight: bold;padding-left: 14px;text-align: center;">SQL Queries used on each of the pages</h2><br>
+<br>
+<h2 style="text-decoration:underline purple;font-weight: bold;padding-left: 14px;text-align: center;">Stored procedure</h2><br>
+ <div class="container">
+        <p class="language">Stored Procedure (to show in phpmyadmin add one customer)</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+CREATE PROCEDURE add_customer
+(
+   IN p_cid VARCHAR(6),
+   IN p_cfname VARCHAR(30),
+   IN p_clname VARCHAR(30),
+   IN p_caddress VARCHAR(30),
+   IN p_cage INT(11),
+   IN p_csex VARCHAR(6),
+   IN p_cphone DECIMAL(10,0),
+   IN p_cmail VARCHAR(40)
+)
+BEGIN
+   INSERT INTO CUSTOMER (C_ID, C_Fname, C_Lname, C_Address, C_Age, C_Sex, C_Phone, C_Mail)
+   VALUES (p_cid, p_cfname, p_clname, p_caddress, p_cage, p_csex, p_cphone, p_cmail);
+END;
+</code></pre>
+        </div>
+    </div>
+<p>A stored procedure is a pre-compiled database object that contains a set of SQL statements that can be executed. <br>
+You can use stored procedures to encapsulate complex logic, improve the performance of your database by reducing the amount of time spent executing SQL statements, and improve the security of your database by limiting the types of SQL statements that can be executed.</p>
+
+ <div class="container">
+        <p class="language">Calling Stored procedure</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+CALL add_customer('$C_ID', '$C_Fname', '$C_Lname', '$C_Address', '$C_Age', '$C_Sex', '$C_Phone', '$C_Mail')
+
+eg:- 
+CALL add_customer('C1', 'John', 'Doe', '123 Main St', 35, 'Male', '9876543210', 'johndoe@example.com');
+</code></pre>
+        </div>
+    </div>
+	<br>
+
+<div class="container">
+        <p class="language">MySQL query used in add Employee page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+INSERT INTO EMPLOYEE (E_ID, E_Name, E_Mail, E_Phone, E_Role, E_Bdate, E_Type, E_Jdate, E_Sex, E_Salary, E_Add) 
+VALUES ('$E_ID', '$E_Name', '$E_Mail', '$E_Phone', '$E_Role', '$E_Bdate', '$E_Type', '$E_Jdate', '$E_Sex', '$E_Salary', '$E_Add')
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">MySQL query used in add Sales page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+INSERT INTO SALES (S_ID, S_Date, S_Time, Total_Amt, C_ID, E_ID) VALUES ('$S_ID', '$S_Date', '$S_Time', '$Total_Amt', '$C_ID', '$E_ID')
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">MySQL query used in add Medicines page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+INSERT INTO MEDICINES (Med_ID, Med_Name, Med_Qty, Category, Med_Price, Location_Rack)
+VALUES ('$Med_ID', '$Med_Name', '$Med_Qty', '$Category', '$Med_Price', '$Location_Rack')
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">MySQL query used in add Purchase page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+INSERT INTO PURCHASE (P_ID, Med_ID, Sup_ID, Pur_Date, Mfg_Date, Exp_Date, P_Qty, P_Cost)
+VALUES ('$P_ID', '$Med_ID', '$Sup_ID', '$Pur_Date', '$Mfg_Date', '$Exp_Date', '$P_Qty', '$P_Cost')
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">MySQL query used in add Suppliers page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+INSERT INTO SUPPLIERS (Sup_ID, Sup_Name, Sup_Mail, Sup_Phone, Sup_Add) VALUES ('$Sup_ID', '$Sup_Name', '$Sup_Mail', '$Sup_Phone', '$Sup_Add')
+</code></pre>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <p class="language">MySQL queries used in manage customers page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+// For updatation 
+UPDATE CUSTOMER SET C_Fname='$c_fname', C_Lname='$c_lname', C_Address='$c_address', C_Age='$c_age', C_Sex='$c_sex', C_Phone='$c_phone',C_Mail='$c_mail' 
+WHERE C_ID='$c_id'
+
+// For Deletion
+DELETE FROM CUSTOMER WHERE C_ID='$c_id'
+
+// For retreving entire table
+SELECT * FROM CUSTOMER
+
+// retreving for editing 
+SELECT * FROM CUSTOMER WHERE C_ID='$c_id'
+
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">MySQL queries used in manage employee page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+// For updatation 
+UPDATE EMPLOYEE SET E_Name='$e_name', E_Mail='$e_mail', E_Phone='$e_phone', E_Role='$e_role', E_Bdate='$e_bdate', E_Type='$e_type', 
+E_Jdate='$e_jdate', E_Sex='$e_sex', E_Salary='$e_salary', E_Add='$e_add' WHERE E_ID='$e_id'
+
+// For Deletion
+DELETE FROM EMPLOYEE WHERE E_ID='$e_id'
+
+// For retreving entire table
+SELECT * FROM EMPLOYEE
+
+// retreving for editing 
+SELECT * FROM EMPLOYEE WHERE E_ID='$e_id'
+
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">MySQL queries used in manage Sales page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+// For updatation 
+UPDATE SALES SET S_Date='$s_date', S_Time='$s_time', Total_Amt='$total_amt', C_ID='$c_id', E_ID='$e_id' WHERE S_ID='$s_id'
+
+// retreving for editing
+SELECT * FROM SALES WHERE S_ID='$s_id'
+
+// For Deletion
+DELETE FROM SALES WHERE S_ID='$s_id'
+
+// Select all records from the SALES table, along with the customer name and employee name
+SELECT s.*, c.C_Fname AS Customer_Name, c.C_Lname AS Customer_LName, e.E_Name AS Employee_Name FROM SALES s 
+JOIN CUSTOMER c ON s.C_ID=c.C_ID JOIN EMPLOYEE e ON s.E_ID=e.E_ID"
+
+// Select all records from the SALES table
+SELECT * FROM SALES
+
+</code></pre>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <p class="language">MySQL queries used in manage Medicine page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+// For updatation 
+UPDATE MEDICINES SET Med_Name='$med_name', Med_Qty='$med_qty', Category='$category', Med_Price='$med_price', Location_Rack='$location_rack' 
+WHERE Med_ID='$med_id'
+
+// For Deletion
+DELETE FROM MEDICINES WHERE Med_ID='$med_id'
+
+// retreving all values in table
+SELECT * FROM MEDICINES
+
+// Retrieve the record's data from the database for editing 
+SELECT * FROM MEDICINES WHERE Med_ID='$med_id'
+
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">MySQL queries used in manage Purchase page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+// For updatation 
+UPDATE PURCHASE SET Med_ID = '$med_id', Sup_ID = '$sup_id', Pur_Date = '$pur_date', Mfg_Date = '$mfg_date', Exp_Date = '$exp_date', P_Qty = '$p_qty', P_Cost = '$p_cost' 
+WHERE P_ID = '$purchase_id'
+
+// For Deletion
+DELETE FROM PURCHASE WHERE P_ID = '$purchase_id'
+
+// retreving all values in table
+SELECT * FROM PURCHASE
+
+// Retrieve the record's data from the database for editing 
+SELECT * FROM PURCHASE WHERE P_ID = '$purchase_id'
+
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">MySQL queries used in manage Suppliers page</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+// For updatation 
+UPDATE SUPPLIERS SET Sup_Name='$sup_name', Sup_Mail='$sup_mail', Sup_Phone='$sup_phone', Sup_Add='$sup_add' WHERE Sup_ID='$sup_id'
+
+// For Deletion
+DELETE FROM SUPPLIERS WHERE Sup_ID='$sup_id'
+    
+// retreving tables
+SELECT * FROM SUPPLIERS
+    
+// Retrieve the record's data from the database for editing 
+SELECT * FROM SUPPLIERS WHERE Sup_ID='$sup_id'
+    
+</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <p class="language">MySQL queries used in low stock report when count < 10 </p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+SELECT Med_ID, Med_Name, Med_Qty FROM MEDICINES WHERE Med_Qty < 10
+
+</code></pre>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <p class="language">MySQL queries used in transactions report b/w dates </p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+SELECT S_ID, S_Date, E_ID, C_ID, Total_Amt
+FROM SALES
+WHERE S_Date BETWEEN '$start_date' AND '$end_date'
+
+</code></pre>
+        </div>
+    </div>
+    
+
+    <div class="container">
+        <p class="language">MySQL and php code To get total sales </p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+SELECT * FROM SALES
+
+$total_sales = 0;
+while ($row = mysqli_fetch_assoc($result)){
+    $total_sales += $row['Total_Amt'];
+}
+</code></pre>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <p class="language">MySQL query for Purchase report get total purchase cost</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+SELECT SUM(P_Cost) as total_cost FROM PURCHASE
+
+</code></pre>
+        </div>
+    </div>
+    
+
+<div class="container">
+        <p class="language">MySQL and php for Profit calculations</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+// Retrieve total sales and total purchase amounts
+SELECT SUM(Total_Amt) AS total_sales, SUM(P_Cost) AS total_purchase FROM SALES, PURCHASE")
+
+// Calculate profits
+$profits = $row['total_sales'] - $row['total_purchase'];
+
+</code></pre>
+        </div>
+    </div>
+	
+
+    <div class="container">
+        <p class="language">Sql query to get medicines that expire within 30 days from current date </p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+SELECT MEDICINES.Med_ID, MEDICINES.Med_Name, PURCHASE.Exp_Date
+FROM MEDICINES
+INNER JOIN PURCHASE ON MEDICINES.Med_ID = PURCHASE.Med_ID
+WHERE DATEDIFF(PURCHASE.Exp_Date, CURDATE()) <= 30
+
+</code></pre>
+        </div>
+    </div>
+
+
+ <!--     <div class="container">
+        <p class="language">MySQL</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+coping correctly
+
+</code></pre>
+        </div>
+    </div> -->
+
+ <!--     <div class="container">
+        <p class="language">MySQL</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+coping correctly
+
+</code></pre>
+        </div>
+    </div> -->
+
+ <!-- <div class="container">
+        <p class="language">MySQL</p>
+        <div class="code-wrapper">
+<pre class="language-css"><code>
+coping correctly
+
+</code></pre>
+        </div>
+    </div> -->
+	
+	<br>
+	<h2 style="text-decoration:underline purple;font-weight: bold;padding-left: 14px;text-align: center;">Normalization Explanation</h2><br>
+	
+<div class="container"><h1>Detail of how tables satisfy the First Normal Form (1NF)</h1>
+ A table is said to be in 1NF if it meets the following criteria: <br>
+* It contains no repeating groups of columns<br>
+* It has a unique primary key<br><br>
+All of the tables in our database satisfy the first criterion, as they do not contain any repeating groups of columns.<br>
+ The tables also all have a unique primary key defined, so they should also satisfy the second criterion. <br>
+ Therefore, all of the tables in your database is in 1NF.<br>
+</div>
+
+<div class="container"><h1>Detail of how tables satisfy the  Second Normal Form (2NF)</h1>
+A table is said to be in 2NF if it meets the following criteria:<br>
+* It is in 1NF<br>
+* All non-key attributes are fully dependent on the primary key<br><br>
+All of the tables in our database are already in 1NF, as determined earlier.<br>
+ Additionally, all of the non-key attributes in the tables depend solely on the primary key of their respective tables,
+<br> so the tables should also satisfy the second criterion. Therefore, all of the tables in your database is in 2NF.
+</div>
+
+<div class="container"><h1>Detail of how tables satisfy the Third Normal Form (3NF)</h1>
+A table is said to be in 3NF if it meets the following criteria: <br>
+* It is in 2NF <br>
+* It contains no transitive dependencies <br> <br>
+All of the tables in our database are already in 2NF, as determined earlier. <br>
+Additionally, none of the tables seem to contain any transitive dependencies, so the tables should also satisfy the second criterion. <br>
+Therefore, all of the tables in your database is in 3NF.
+</div>
+
+<div class="container"><h1>Detail of how tables satisfy the  Boyce-Codd Normal Form (BCNF)</h1>
+A table is said to be in BCNF if it meets the following criteria: <br>
+* It is in 3NF <br>
+* Every determinant is a candidate key <br> <br>
+All of the tables in our database are already in 3NF, as determined earlier.<br>
+ Additionally, all of the tables have candidate keys that consist of a single attribute (the primary key),<br>
+ so the tables should also satisfy the second criterion. Therefore, all of the tables in your database is in BCNF.
+</div>
+
+<div class="container"><h1>Summary of dependencies</h1>
+<br>
+EMPLOYEE:
+<br>
+E_ID is the primary key.<br>
+E_Name, E_Mail, E_Phone, E_Role, E_Bdate, E_Type, E_Jdate, E_Sex, E_Salary, and E_Add are all fully dependent on E_ID and are not dependent on any other attribute.
+<br><br>
+CUSTOMER:<br>
+
+C_ID is the primary key.<br>
+C_Fname, C_Lname, C_Address, C_Age, C_Sex, C_Phone, and C_Mail are all fully dependent on C_ID and are not dependent on any other attribute.
+<br><br>
+SALES:<br>
+
+S_ID is the primary key.<br>
+S_Date and S_Time are fully dependent on S_ID and are not dependent on any other attribute.<br>
+Total_Amt is fully dependent on S_ID and is not dependent on any other attribute.<br>
+C_ID and E_ID are foreign keys and are fully dependent on S_ID.<br>
+<br><br>
+MEDICINES:<br>
+
+Med_ID is the primary key.<br>
+Med_Name, Med_Qty, Category, Med_Price, and Location_Rack are all fully dependent on Med_ID and are not dependent on any other attribute.<br>
+<br><br>
+SUPPLIERS:<br>
+
+Sup_ID is the primary key.<br>
+Sup_Name, Sup_Mail, Sup_Phone, and Sup_Add are all fully dependent on Sup_ID and are not dependent on any other attribute.<br>
+<br><br>
+PURCHASE:<br>
+
+P_ID and Med_ID form a composite primary key.<br>
+Sup_ID is fully dependent on P_ID and Med_ID.<br>
+Pur_Date, Mfg_Date, Exp_Date, P_Qty, and P_Cost are fully dependent on P_ID and Med_ID and are not dependent on any other attribute.<br>
+<br><br>
+SALES_ITEMS:<br>
+
+S_ID and Med_ID form a composite primary key.<br>
+Sale_Qty and Tot_Price are fully dependent on S_ID and Med_ID and are not dependent on any other attribute.<br>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<link rel="stylesheet" type="text/css" href="./sidenav/sidenav.css">
+<script src="./sidenav/sidenav.js"></script> 
+<link rel="stylesheet" href="./sidenav/font awesome/css/font-awesome.min.css">
+<div class="sidenav">
+  <div class="card">
+    <div class="card-body">
+      <div class="logo">
+        <img src="./sidenav/logo.png" class="logo"/>
+        <h1 class="logo-caption"><span class="tweak">Medical Management System</span></h1>
+      </div> <!-- logo class -->
+
+      <!-- dashboard start -->
+      <div class="main-menu-item">
+        <a href="index.php"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+      </div>
+      <!-- dashboard end -->
+
+      <!-- invoice strat -->
+      <div id="first" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+      		<i class="fa fa-balance-scale"></i><span>Sales</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_invoice.php">New sales</a></li>
+      		<li class="treeview"><a href="manage_invoice.php">Manage sales </a></li>
+			<li class="treeview"><a href="manage_invoice_items.php">Manage sales items </a></li>
+      	</ul>
+      </div>
+      <!-- invoice end -->
+
+      <!-- customer end -->
+      <div id="fifth" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+			<i class="fa fa-handshake-o" aria-hidden="true"></i><span>Customer</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_customer.php">Add Customer</a></li>
+      		<li class="treeview"><a href="manage_customer.php">Manage Customer</a></li>
+      	</ul>
+      </div>
+      <!-- customer end -->
+	  
+	  	 <!-- medicine strat -->
+      <div id="second" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+      		<i class="fa fa-shopping-bag"></i><span>Medicine</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="manage_medicine.php">Manage Medicine nos</a></li>
+      	</ul>
+      </div>
+      <!-- medicine end -->
+	  
+	  		<!-- employee end -->
+      <div id="fourth" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+			<i class="fa fa-user-circle" aria-hidden="true"></i><span>Employee</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="manage_employee.php">Show Employees</a></li>
+      	</ul>
+      </div>
+      <!-- employee end -->
+	  
+	        <!-- report start -->
+      <div id="seventh" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+      		<i class="fa fa-book"></i><span>Reports</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+		  <li class="treeview"><a href="low_stock_report.php">Medicines - Low Stock</a></li>
+		  <li class="treeview"><a href="medicine_expire_report.php">Medicines - Soon to Expire</a></li>
+      	</ul>
+      </div>
+      <!-- report end -->
+	  <div class="main-menu-item">
+				<a onclick="calculate()">
+						<i class="fa fa-calculator" aria-hidden="true"></i><span>Calculator</span>
+				</a>
+	   </div>
+	  <div class="main-menu-item">
+			<a href="../index.php">
+			<i class="fa fa-home" aria-hidden="true"></i><span>Home page</span>
+			</a>
+      </div>
+
+</div> 
+
+    </div> <!-- card-body class -->
+  </div> <!-- card  -->
+</div>
+<script>
+function calculate(){
+	let expression = prompt("Enter your expression:");
+	let result = eval(expression);
+	alert(result);
+}
+</script>

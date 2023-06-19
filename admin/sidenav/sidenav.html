@@ -1,0 +1,199 @@
+<link rel="stylesheet" type="text/css" href="./sidenav/sidenav.css">
+<script src="./sidenav/sidenav.js"></script> 
+<link rel="stylesheet" href="./sidenav/font awesome/css/font-awesome.min.css">
+<div class="sidenav">
+  <div class="card">
+    <div class="card-body">
+      <div class="logo">
+        <img src="./sidenav/logo.png" class="logo"/>
+        <h1 class="logo-caption"><span class="tweak">Medical Management System</span></h1>
+      </div> <!-- logo class -->
+
+      <!-- dashboard start -->
+      <div class="main-menu-item">
+        <a href="index.php"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+      </div>
+      <!-- dashboard end -->
+
+      <!-- invoice strat -->
+      <div id="first" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+      		<i class="fa fa-balance-scale"></i><span>Sales/Invoice</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_invoice.php">New Sales</a></li>
+      		<li class="treeview"><a href="manage_invoice.php">Manage Sales </a></li>
+			<li class="treeview"><a href="manage_invoice_items.php">Manage sales items </a></li>
+      	</ul>
+      </div>
+      <!-- invoice end -->
+
+	 <!-- medicine strat -->
+      <div id="second" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+      		<i class="fa fa-shopping-bag"></i><span>Medicine</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_medicine.php">Add Medicine</a></li>
+      		<li class="treeview"><a href="manage_medicine.php">Manage Medicine</a></li>
+      	</ul>
+      </div>
+      <!-- medicine end -->
+
+	  <!-- manufacturer start -->
+      <div id="third" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+      		<i class="fa fa-group"></i><span>Suppliers</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_supplier.php">Add Supplier</a></li>
+      		<li class="treeview"><a href="manage_supplier.php">Manage Supplier</a></li>
+      	</ul>
+      </div>
+      <!-- manufacturer end -->
+
+		<!-- employee end -->
+      <div id="fourth" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+			<i class="fa fa-user-circle" aria-hidden="true"></i><span>Employee</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_employee.php">Add Employee</a></li>
+      		<li class="treeview"><a href="manage_employee.php">Manage Employee</a></li>
+      	</ul>
+      </div>
+      <!-- employee end -->
+
+      <!-- customer end -->
+      <div id="fifth" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+			<i class="fa fa-handshake-o" aria-hidden="true"></i><span>Customer</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_customer.php">Add Customer</a></li>
+      		<li class="treeview"><a href="manage_customer.php">Manage Customer</a></li>
+      	</ul>
+      </div>
+      <!-- customer end -->
+
+   
+      <!-- purchase start -->
+      <div id="sixth" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+      		<i class="fa fa-bar-chart"></i><span>Purchase</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_purchase.php">Add Purchase</a></li>
+      		<li class="treeview"><a href="manage_purchase.php">Manage Purchase</a></li>
+      	</ul>
+      </div>
+      <!-- purchase end -->
+
+      <!-- report start -->
+      <div id="seventh" class="main-menu-item" onclick="showhide(this.id);">
+      	<a>
+      		<i class="fa fa-book"></i><span>Report</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+          <li class="treeview"><a href="sales_report.php">Sales Report</a></li>
+      	  <li class="treeview"><a href="purchase_report.php">Purchase Report</a></li>
+		  <li class="treeview"><a href="profit_report.php">Profit Report</a></li>
+		  <li class="treeview"><a href="low_stock_report.php">Medicines - Low Stock</a></li>
+		  <li class="treeview"><a href="medicine_expire_report.php">Medicines - Soon to Expire</a></li>
+		  <li class="treeview"><a href="transaction_report.php">Transaction Reports</a></li>
+      	</ul>
+      </div>
+      <!-- report end -->
+
+      <!-- search start -->
+      <div id="eight" class="main-menu-item" onclick="search()">
+      	<a onclick="search()">
+      		<i class="fa fa-search"></i><span>Search</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+		<div id='tosearch' hidden>
+      		<a href="add_invoice.php">new invoice</a>
+      		<a href="manage_invoice.php">manage invoice </a>
+      		<a href="add_invoice.php">new sales</a>
+      		<a href="manage_invoice.php">manage sales </a>
+      		<a href="add_medicine.php">add medicine</a>
+      		<a href="manage_medicine.php">manage medicine</a>
+      		<a href="add_supplier.php">add supplier</a>
+      		<a href="manage_supplier.php">manage Supplier</a>
+      		<a href="add_employee.php">add employee</a>
+      		<a href="manage_employee.php">manage employee</a>
+      		<a href="add_customer.php">add customer</a>
+      		<a href="manage_customer.php">manage customer</a>
+      		<a href="add_purchase.php">add Purchase</a>
+      		<a href="manage_purchase.php">manage purchase</a>
+            <a href="sales_report.php">sales report</a>
+      	    <a href="purchase_report.php">purchase report</a>
+		    <a href="profit_report.php">profit report</a>
+		    <a href="low_stock_report.php">low stock</a>
+			<a href="low_stock_report.php">out of stock</a>
+		    <a href="medicine_expire_report.php">medicines soon to expire </a>
+			<a href="medicine_expire_report.php">medicines expired </a>
+		    <a href="transaction_report.php">transaction reports</a>
+			<a href="./documentation/index.html">documentation</a>
+			<a href="manage_invoice_items.php">manage sales items</a>
+			<a href="manage_invoice_items.php">manage invoice items</a>
+			<a href="./documentation/projectreport.pdf">project report</a>
+	  </div>
+   </div>
+      <!--   search end -->
+</div>
+
+	  <!--start documentation-->
+	  <div class="main-menu-item">
+        <a href="./documentation/index.html"><i class="fa fa-file-code-o"></i><span>Documentation</span></a>
+      </div>
+	  <!--end documentation-->
+
+	  <div class="main-menu-item">
+        <a href="./logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i><span>LOGOUT</span></a>
+      </div>
+	  
+	  <div class="main-menu-item">
+				<a onclick="calculate()">
+						<i class="fa fa-calculator" aria-hidden="true"></i><span>Calculator</span>
+				</a>
+	   </div>
+	  <div class="main-menu-item">
+			<a href="../index.php">
+			<i class="fa fa-home" aria-hidden="true"></i><span>Home page</span>
+			</a>
+      </div>
+
+    </div> <!-- card-body class -->
+  </div> <!-- card  -->
+</div>
+<script>
+function calculate(){
+	let expression = prompt("Enter your expression:");
+	let result = eval(expression);
+	alert(result);
+}
+</script>
